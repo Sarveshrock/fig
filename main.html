@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Abun - AI Content Writer</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Sora:wght@700&display=swap');
+
+    :root {
+      --bg-dark: #0b0f19;
+      --bg-darker: #111827;
+      --primary-blue: #2563eb;
+      --accent-yellow: #fbbf24;
+      --text-light: #f9fafb;
+      --text-muted: #9ca3af;
+      --border-radius: 8px;
+      --transition: 0.3s ease;
+      --max-width: 1200px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg-dark);
+      color: var(--text-light);
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    a {
+      color: var(--primary-blue);
+      text-decoration: none;
+      transition: color var(--transition);
+    }
+
+    a:hover {
+      color: var(--accent-yellow);
+    }
+
+    .container {
+      width: 90%;
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+
+    /* Navbar */
+    nav {
+      width: 100%;
+      background: var(--bg-darker);
+      padding: 1rem 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+    }
+
+    nav .logo {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary-blue);
+      letter-spacing: 2px;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav ul li {
+      font-weight: 600;
+    }
+
+    nav ul li a {
+      color: var(--text-light);
+      font-weight: 600;
+    }
+
+    nav ul li a:hover {
+      color: var(--accent-yellow);
+    }
+
+    nav .btn-group {
+      display: flex;
+      gap: 1rem;
+    }
+
+    nav button {
+      background: var(--primary-blue);
+      border: none;
+      color: white;
+      padding: 0.5rem 1.2rem;
+      border-radius: var(--border-radius);
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color var(--transition);
+      font-family: 'Inter', sans-serif;
+    }
+
+    nav button.secondary {
+      background: transparent;
+      border: 2px solid var(--primary-blue);
+      color: var(--primary-blue);
+    }
+
+    nav button:hover {
+      background-color: var(--accent-yellow);
+      color: var(--bg-dark);
+    }
+
+    nav button.secondary:hover {
+      background-color: var(--primary-blue);
+      color: white;
+    }
+
+    /* Hero */
+    .hero {
+      text-align: center;
+      padding: 6rem 1rem 4rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .hero h1 {
+      font-family: 'Sora', sans-serif;
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      line-height: 1.2;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+    }
+
+    .hero .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .hero .buttons button {
+      background: var(--primary-blue);
+      color: white;
+      border: none;
+      padding: 0.75rem 2rem;
+      font-weight: 600;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: background-color var(--transition);
+    }
+
+    .hero .buttons button.secondary {
+      background: transparent;
+      border: 2px solid var(--primary-blue);
+      color: var(--primary-blue);
+    }
+
+    .hero .buttons button:hover {
+      background-color: var(--accent-yellow);
+      color: var(--bg-dark);
+    }
+
+    .hero .buttons button.secondary:hover {
+      background-color: var(--primary-blue);
+      color: white;
+    }
+
+    /* Features Grid */
+    .features {
+      background: var(--bg-darker);
+      padding: 4rem 1rem;
+      border-radius: var(--border-radius);
+      margin: 3rem auto;
+      max-width: var(--max-width);
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+      gap: 2rem;
+      text-align: center;
+    }
+
+    .feature-item {
+      background: #1e2539;
+      padding: 2rem 1rem;
+      border-radius: var(--border-radius);
+      box-shadow: 0 4px 8px rgba(37, 99, 235, 0.2);
+      transition: box-shadow var(--transition);
+    }
+
+    .feature-item:hover {
+      box-shadow: 0 8px 16px rgba(251, 191, 36, 0.6);
+    }
+
+    .feature-item h3 {
+      margin-bottom: 1rem;
+      font-family: 'Sora', sans-serif;
+      color: var(--primary-blue);
+    }
+
+    .feature-item p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    /* Testimonials */
+    .testimonials {
+      max-width: var(--max-width);
+      margin: 4rem auto;
+      padding: 0 1rem;
+      text-align: center;
+    }
+
+    .testimonials h2 {
+      font-family: 'Sora', sans-serif;
+      margin-bottom: 2rem;
+      font-size: 2.5rem;
+    }
+
+    .testimonial-cards {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .testimonial {
+      background: #1e2539;
+      padding: 2rem;
+      border-radius: var(--border-radius);
+      max-width: 320px;
+      box-shadow: 0 0 15px rgba(251, 191, 36, 0.3);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      color: var(--text-light);
+      font-style: italic;
+    }
+
+    .testimonial img {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--primary-blue);
+    }
+
+    .testimonial p {
+      margin: 0;
+    }
+
+    .testimonial .author {
+      font-weight: 700;
+      color: var(--accent-yellow);
+      margin-top: 0.5rem;
+    }
+
+    /* Pricing */
+    .pricing {
+      max-width: var(--max-width);
+      margin: 4rem auto;
+      padding: 0 1rem;
+      text-align: center;
+    }
+
+    .pricing h2 {
+      font-family: 'Sora', sans-serif;
+      margin-bottom: 2rem;
+      font-size: 2.5rem;
+    }
+
+    .plans {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .plan {
+      background: #1e2539;
+      padding: 2rem;
+      border-radius: var(--border-radius);
+      width: 280px;
+      box-shadow: 0 0 15px rgba(37, 99, 235, 0.3);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .plan h3 {
+      color: var(--primary-blue);
+      margin-bottom: 1rem;
+      font-family: 'Sora', sans-serif;
+    }
+
+    .plan .price {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: var(--accent-yellow);
+    }
+
+    .plan ul {
+      list-style: none;
+      padding: 0;
+      margin-bottom: 2rem;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    .plan ul li {
+      margin-bottom: 0.7rem;
+    }
+
+    .plan button {
+      background: var(--primary-blue);
+      border: none;
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: var(--border-radius);
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: background-color var(--transition);
+    }
+
+    .plan button:hover {
+      background-color: var(--accent-yellow);
+      color: var(--bg-dark);
+    }
+
+    /* FAQ */
+    .faq {
+      max-width: var(--max-width);
+      margin: 4rem auto;
+      padding: 0 1rem;
+      color: var(--text-light);
+    }
+
+    .faq h2 {
+      font-family: 'Sora', sans-serif;
+      margin-bottom: 2rem;
+      font-size: 2.5rem;
+      text-align: center;
+    }
+
+    .faq-item {
+      background: #1e2539;
+      margin-bottom: 1rem;
+      border-radius: var(--border-radius);
+      padding: 1rem 1.5rem;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(37, 99, 235, 0.3);
+    }
+
+    .faq-item:hover {
+      box-shadow: 0 0 15px rgba(251, 191, 36, 0.5);
+    }
+
+    .faq-item h3 {
+      margin: 0;
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'Sora', sans-serif;
+      font-size: 1.1rem;
+    }
+
+    .faq-item p {
+      margin-top: 0.8rem;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+
+    .faq-item.active p {
+      max-height: 200px;
+    }
+
+    /* Footer */
+    footer {
+      background: var(--bg-darker);
+      padding: 2rem 1rem;
+      width: 100%;
+      text-align: center;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-top: auto;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      nav ul {
+        display: none;
+      }
+
+      nav .btn-group {
+        display: none;
+      }
+
+      .plans {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="container" style="display:flex;align-items:center;justify-content:space-between;">
+      <div class="logo">Abun</div>
+      <ul>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#testimonials">Testimonials</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+      <div class="btn-group">
+        <button>Login</button>
+        <button class="secondary">Sign Up</button>
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <h1>Abun - AI Content Writer</h1>
+    <p>Create valuable, SEO-friendly content effortlessly with Abun’s AI-powered writing tools.</p>
+    <div class="buttons">
+      <button>Get Started</button>
+      <button class="secondary">View Demo</button>
+    </div>
+  </section>
+
+  <section id="features" class="features container">
+    <div class="feature-item">
+      <h3>AI-Powered Content</h3>
+      <p>Generate high-quality content tailored to your audience.</p>
+    </div>
+    <div class="feature-item">
+      <h3>Keyword Research</h3>
+      <p>Find the best keywords to boost your SEO ranking.</p>
+    </div>
+    <div class="feature-item">
+      <h3>Content Samples</h3>
+      <p>Explore AI-generated writing samples to inspire your work.</p>
+    </div>
+    <div class="feature-item">
+      <h3>Affordable & Simple</h3>
+      <p>Professional writing tools at an accessible price.</p>
+    </div>
+  </section>
+
+  <section id="testimonials" class="testimonials container">
+    <h2>What Our Users Say</h2>
+    <div class="testimonial-cards">
+      <div class="testimonial">
+        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="User 1" />
+        <p>"Abun transformed my content creation process. It’s easy and produces amazing results!"</p>
+        <div class="author">— Emily R.</div>
+      </div>
+      <div class="testimonial">
+        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User 2" />
+        <p>"The keyword research feature helped me rank higher and grow traffic fast."</p>
+        <div class="author">— James K.</div>
+      </div>
+      <div class="testimonial">
+        <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="User 3" />
+        <p>"Affordable, sleek, and professional — exactly what I needed for my blog."</p>
+        <div class="author">— Sarah M.</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="pricing" class="pricing container">
+    <h2>Pricing Plans</h2>
+    <div class="plans">
+      <div class="plan">
+        <h3>Basic</h3>
+        <div class="price">$9 / mo</div>
+        <ul>
+          <li>AI Content Generation</li>
+          <li>Basic Keyword Research</li>
+          <li>5 Content Samples per month</li>
+        </ul>
+        <button>Choose Basic</button>
+      </div>
+      <div class="plan">
+        <h3>Pro</h3>
+        <div class="price">$29 / mo</div>
+        <ul>
+          <li>Unlimited Content Generation</li>
+          <li>Advanced Keyword Research</li>
+          <li>Unlimited Content Samples</li>
+          <li>Priority Support</li>
+        </ul>
+        <button>Choose Pro</button>
+      </div>
+      <div class="plan">
+        <h3>Enterprise</h3>
+        <div class="price">Contact Us</div>
+        <ul>
+          <li>Custom AI Solutions</li>
+          <li>Dedicated Account Manager</li>
+          <li>Enterprise-grade Security</li>
+          <li>Custom Integrations</li>
+        </ul>
+        <button>Contact Sales</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" class="faq container">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <h3>What is Abun?</h3>
+      <p>Abun is an AI content writer tool that helps you create valuable and SEO-friendly content easily.</p>
+    </div>
+    <div class="faq-item">
+      <h3>How does keyword research work?</h3>
+      <p>Our AI analyzes search trends and competitor data to suggest the best keywords for your niche.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Is there a free trial?</h3>
+      <p>Yes! We offer a 7-day free trial for new users to explore all features.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Can I upgrade or cancel anytime?</h3>
+      <p>Absolutely! You can upgrade, downgrade, or cancel your subscription at any time.</p>
+    </div>
+  </section>
+
+  <footer>
+    &copy; 2025 Abun. All rights reserved.
+  </footer>
+
+  <script>
+    // FAQ accordion toggle
+    document.querySelectorAll('.faq-item').forEach(item => {
+      item.addEventListener('click', () => {
+        item.classList.toggle('active');
+      });
+    });
+  </script>
+</body>
+</html>
